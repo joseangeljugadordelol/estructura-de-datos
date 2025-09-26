@@ -5,6 +5,7 @@
 package mx.itson.estructura_de_datos_2025;
 
 import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -12,10 +13,15 @@ import java.util.ArrayList;
  */
 public class Pokedex extends javax.swing.JFrame {
 
+    
+    
     ArrayList<Pokemon> lista = new ArrayList<Pokemon>();
     int pokemonSeleccionado;
     public Pokedex() {
         initComponents();
+        llenarTabla();
+        btnAceptar.setVisible(false);
+        btnCancelar.setVisible(false);
     }
     public void AgregarLista(){
         
@@ -40,10 +46,26 @@ public class Pokedex extends javax.swing.JFrame {
     }
     public void llenarTabla(){
         //1. crear modelo de la tabla
+        DefaultTableModel datos = new DefaultTableModel();
         //2. crear columnas de la tabla
+        datos.addColumn("Nombre");
+        datos.addColumn("Tipo");
+        datos.addColumn("Daño");
+        datos.addColumn("Vida");
+        datos.addColumn("Evolucion");
+        datos.addColumn("Genero");
+        
         //3. alterar lista de pokemon
+        for(Pokemon p:lista){
+            
+            datos.addRow(new Object[]{
+                p.getNombre(), p.getTipo(),p.getDano(),p.getVida(),p.getEvolucion()
+                , p.getGenero()            
+            });
+        }
         //4. por cada pokemon agregar un registro a modelo de la tabla
         //5. aggregar modelo de la tabla
+        tblPokemons.setModel(datos);
        
         //jtabla: es  el elemento grafico de la tabla
         //modelo: es la estrucutra con los valores de la tabla (coumnas y filas)
@@ -81,11 +103,14 @@ public class Pokedex extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         tfEvolucion = new javax.swing.JTextField();
         btnAgregar = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
+        btnAceptar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblPokemons = new javax.swing.JTable();
         btnEliminar = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
+        lblPokemonSeleccionado = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -138,34 +163,57 @@ public class Pokedex extends javax.swing.JFrame {
             }
         });
 
+        btnCancelar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+
+        btnAceptar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnAceptar.setText("Aceptar");
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addGap(53, 53, 53))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tfNombre)
-                    .addComponent(tfTipo)
-                    .addComponent(tfDano)
-                    .addComponent(tfVida)
-                    .addComponent(tfEvolucion)
-                    .addComponent(tfGenero)
-                    .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel2)
+                        .addGap(53, 53, 53))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnAceptar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(22, 22, 22)
+                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnAgregar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(tfNombre, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tfTipo, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tfDano, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tfVida, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tfEvolucion, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tfGenero, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -198,12 +246,16 @@ public class Pokedex extends javax.swing.JFrame {
                 .addComponent(tfGenero, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(12, 12, 12)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 102));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblPokemons.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -214,12 +266,22 @@ public class Pokedex extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        tblPokemons.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblPokemonsMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblPokemons);
 
         btnEliminar.setBackground(new java.awt.Color(229, 10, 10));
         btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnEliminar.setForeground(new java.awt.Color(0, 0, 0));
         btnEliminar.setText("X");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         btnEditar.setBackground(new java.awt.Color(239, 204, 0));
         btnEditar.setForeground(new java.awt.Color(0, 0, 0));
@@ -230,21 +292,26 @@ public class Pokedex extends javax.swing.JFrame {
             }
         });
 
+        lblPokemonSeleccionado.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblPokemonSeleccionado.setForeground(new java.awt.Color(0, 0, 0));
+        lblPokemonSeleccionado.setText("...");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(btnEditar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnEliminar)
-                        .addGap(21, 21, 21))))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addComponent(lblPokemonSeleccionado, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnEditar)
+                .addGap(83, 83, 83)
+                .addComponent(btnEliminar)
+                .addGap(21, 21, 21))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -252,7 +319,8 @@ public class Pokedex extends javax.swing.JFrame {
                 .addGap(12, 12, 12)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblPokemonSeleccionado))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1)
                 .addContainerGap())
@@ -281,12 +349,61 @@ public class Pokedex extends javax.swing.JFrame {
     }//GEN-LAST:event_tfGeneroActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        btnAceptar.setVisible(true);
+        btnCancelar.setVisible(true);
+        btnAgregar.setVisible(false);
         
+        Pokemon pokemonTemp= lista.get(pokemonSeleccionado);
+        tfNombre.setText(pokemonTemp.getNombre());
+        tfDano.setText(pokemonTemp.getDano()+"");
+        tfEvolucion.setText(pokemonTemp.getEvolucion());
+        tfGenero.setText(pokemonTemp.getGenero());
+        tfTipo.setText(pokemonTemp.getTipo());
+        tfVida.setText(pokemonTemp.getVida()+"");
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         this.AgregarLista();
     }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void tblPokemonsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPokemonsMouseClicked
+        // TODO add your handling code here:
+        pokemonSeleccionado = tblPokemons.getSelectedRow();
+        Pokemon pokemonTemp = lista.get(pokemonSeleccionado);
+        lblPokemonSeleccionado.setText(pokemonTemp.getNombre());
+    }//GEN-LAST:event_tblPokemonsMouseClicked
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
+        lista.remove(pokemonSeleccionado);
+        lblPokemonSeleccionado.setText("");
+        this.llenarTabla();
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        btnAceptar.setVisible(false);
+        btnCancelar.setVisible(false);
+        btnAgregar.setVisible(true);
+        Pokemon pokemonTemp= new Pokemon(
+            tfNombre.getText(),
+            tfTipo.getText(),
+            Double.parseDouble(tfDano.getText()),
+            Double.parseDouble(tfVida.getText()) ,
+            tfEvolucion.getText(),
+            tfGenero.getText()
+        );
+        lista.set(pokemonSeleccionado,pokemonTemp);
+        llenarTabla(); formularioReiniciado(); pokemonSeleccionado=-1;
+                
+    }//GEN-LAST:event_btnAceptarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        btnAceptar.setVisible(false);
+        btnCancelar.setVisible(false);
+        btnAgregar.setVisible(true);
+        pokemonSeleccionado =-1;
+        this.formularioReiniciado();
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -324,7 +441,9 @@ public class Pokedex extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JLabel jLabel1;
@@ -337,7 +456,8 @@ public class Pokedex extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JLabel lblPokemonSeleccionado;
+    private javax.swing.JTable tblPokemons;
     private javax.swing.JTextField tfDano;
     private javax.swing.JTextField tfEvolucion;
     private javax.swing.JTextField tfGenero;
